@@ -19,7 +19,7 @@ WORKDIR /go/src/github.com/morrispetris/sshttp/
 COPY . .
 
 # Build the Go project
-RUN make
+RUN go build
 
 # Expose the necessary port(s)
 EXPOSE 8080
