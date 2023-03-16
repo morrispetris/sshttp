@@ -3,7 +3,7 @@ FROM ubuntu:18.04
 
 # Install necessary dependencies
 RUN apt-get update && \
-    apt-get -y install curl git gcc make
+    apt-get -y install curl git gcc make openssh-server
 
 # Install Golang
 RUN curl -SL https://golang.org/dl/go1.18.10.linux-amd64.tar.gz | tar -C /usr/local -xzf -
@@ -22,10 +22,10 @@ COPY . .
 RUN go get -d -v ./...
 
 # Build the Go project
-RUN go build -o app
+RUN go build -o sshttp 
 
 # Expose the necessary port(s)
 EXPOSE 8080
 
 # Start the app
-CMD ["./app"]
+CMD ["./sshttp", "--listenOn=127.0.0.1:8080", "--forwardTo=22", "--clientAuth=false"]
