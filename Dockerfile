@@ -18,11 +18,14 @@ WORKDIR /go/src/github.com/morrispetris/sshttp/
 # Copy the Go project to the container
 COPY . .
 
+# Install dependencies
+RUN go get -d -v ./...
+
 # Build the Go project
-RUN go build
+RUN go build -o app
 
 # Expose the necessary port(s)
 EXPOSE 8080
 
 # Start the app
-CMD ["/go/src/github.com/ymorrispetris/sshttp/app"]
+CMD ["./app"]
