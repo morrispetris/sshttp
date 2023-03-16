@@ -9,7 +9,8 @@ RUN apt-get update && \
 RUN curl -SL https://golang.org/dl/go1.18.10.linux-amd64.tar.gz | tar -C /usr/local -xzf -
 
 # cert
-RUN openssl req -new -newkey rsa:2048 -nodes -keyout server.key -out server.csr && openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+RUN openssl req -new -newkey rsa:2048 -nodes -keyout server.key -out server.csr -subj "/C=US/ST=CA/L=San Francisco/O=My Company/OU=IT Department/CN=example.com" 
+RUN openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
 
 # Set envionment variables for Golang
 ENV GOPATH /go
