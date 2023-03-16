@@ -6,7 +6,7 @@ RUN apt-get update && \
     apt-get -y install curl git gcc make
 
 # Install Golang
-RUN curl -SL https://golang.org/dl/go1.15.2.linux-amd64.tar.gz | tar -C /usr/local -xzf -
+RUN curl -SL https://golang.org/dl/go1.18.10.linux-amd64.tar.gz | tar -C /usr/local -xzf -
 
 # Set envionment variables for Golang
 ENV GOPATH /go
