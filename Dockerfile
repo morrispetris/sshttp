@@ -3,10 +3,13 @@ FROM ubuntu:18.04
 
 # Install necessary dependencies
 RUN apt-get update && \
-    apt-get -y install curl git gcc make openssh-server
+    apt-get -y install curl git gcc make openssh-server openssl
 
 # Install Golang
 RUN curl -SL https://golang.org/dl/go1.18.10.linux-amd64.tar.gz | tar -C /usr/local -xzf -
+
+# cert
+RUN openssl req -new -newkey rsa:2048 -nodes -keyout server.key -out server.csr && openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
 
 # Set envionment variables for Golang
 ENV GOPATH /go
@@ -28,4 +31,4 @@ RUN go build -o sshttp
 EXPOSE 8080
 
 # Start the app
-CMD ["./sshttp", "--listenOn=127.0.0.1:8080", "--forwardTo=22", "--clientAuth=false"]
+CMD ["./sshttp", "--certPath=./", "--listenOn=127.0.0.1:8080", "--forwardTo=22", "--clientAuth=false"]
